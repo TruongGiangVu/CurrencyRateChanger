@@ -23,13 +23,12 @@ public class CurrencyService extends RssService {
 
             @Override
             public void onLoadRssSuccess(List<RssModel> rssModels) {
-//                Log.d(tag, "size "+ rssModels.size()+"");
+                int count =0;
                 for(RssModel rss: rssModels){
                     String title = rss.getTitle();
                     String description = rss.getDescription();
 //                    <title>Albanian Lek(ALL)/Aruba Florin(AWG)</title>
 //                    <description>1 Albanian Lek = 0.01626 Aruba Florin</description>
-//                    Log.d(tag, "onLoadRssSuccess: "+description +" "+title);
                     int position =description.indexOf("=");
                     if(position >0){
                         String symbol = title.substring(title.length()-4,title.length()-1);
@@ -41,8 +40,9 @@ public class CurrencyService extends RssService {
                             name += spilit[i];
                         }
                         CurrencyModel model = new CurrencyModel(name,rate,symbol);
-//                        Log.d(tag, model.toString());
+//                        Log.d(tag,count+" "+ model.toString());
                         currencyModels.add(model);
+                        count++;
                     }
                 }
                 currencyServiceListener.onGetCurrencyFromRssSuccess(currencyModels);

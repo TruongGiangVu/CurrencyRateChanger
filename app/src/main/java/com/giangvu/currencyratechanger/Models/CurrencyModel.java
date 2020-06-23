@@ -1,6 +1,8 @@
 package com.giangvu.currencyratechanger.Models;
 
-public class CurrencyModel {
+import java.io.Serializable;
+
+public class CurrencyModel implements Serializable {
     private String Name;
     private double Rate;
     private String Symbol;
