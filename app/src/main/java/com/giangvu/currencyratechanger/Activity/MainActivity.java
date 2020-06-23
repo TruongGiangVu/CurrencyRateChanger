@@ -2,17 +2,20 @@ package com.giangvu.currencyratechanger.Activity;
 
 import com.giangvu.currencyratechanger.Models.CurrencyModel;
 import com.giangvu.currencyratechanger.Service.CurrencyService;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.MenuItemCompat;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -26,10 +29,11 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
-    private String tag="GIANGVU";
-    private ListView listview ;
+    private String tag = "GIANGVU";
+    private ListView listview;
     private ConstraintLayout parent;
     private List<CurrencyModel> currencyList;
+    private List<CurrencyModel> searchList;
     private ArrayAdapter adapter;
     private SearchView searchView;
 
@@ -44,10 +48,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
 
         MenuItem searchItem = menu.findItem(R.id.searchNameInput);
-        searchView= (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setQueryHint("search name");
         searchView.setIconifiedByDefault(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -56,22 +60,33 @@ public class MainActivity extends BaseActivity {
                 DisplayData(query);
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
-               DisplayData(newText);
+                DisplayData(newText);
                 return false;
             }
         });
         return super.onCreateOptionsMenu(menu);
     }
-    private void initView(){
-        parent =  findViewById(R.id.layout_parent);
-        listview = (ListView) findViewById(R.id.listCurrency);
 
+    private void initView() {
+        parent = findViewById(R.id.layout_parent);
+        listview = (ListView) findViewById(R.id.listCurrency);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, CurrencyRateChanger.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("currency", searchList.get(position));
+                intent.putExtra("data", bundle);
+                startActivity(intent);
+            }
+        });
     }
 
-    private void loadData(){
-        showDialogLoading("Please waiting for dowload data from server",false);
+    private void loadData() {
+        showDialogLoading("Please waiting for dowload data from server", false);
         CurrencyService.getInstance().getCurrenciesFromRss("https://all.fxexchangerate.com/rss.xml", new CurrencyService.CurrencyServiceListener() {
             @Override
             public void onGetCurrencyFromRssSuccess(List<CurrencyModel> currencyModels) {
@@ -90,21 +105,29 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
-    private List<String> SearchData(String text){
+
+    private List<String> SearchData(String text) {
         ArrayList<String> arrayName = new ArrayList<String>();
-        if(!text.trim().equals("")){
-            for(int i=0;i<currencyList.size();++i)
-                if(currencyList.get(i).getName().toLowerCase().indexOf(text.toLowerCase())>=0)
-                    arrayName.add(currencyList.get(i).getName()+" ("+currencyList.get(i).getSymbol()+")");
-        }else{
-            for(int i=0;i<currencyList.size();++i)
-                arrayName.add(currencyList.get(i).getName()+" ("+currencyList.get(i).getSymbol()+")");
+        searchList = new ArrayList<CurrencyModel>();
+        int n = currencyList.size();
+        if (!text.trim().equals("")) {
+            text = text.toLowerCase();
+            for (int i = 0; i < n; ++i)
+                if (currencyList.get(i).getName().toLowerCase().indexOf(text) >= 0
+                        || currencyList.get(i).getSymbol().toLowerCase().indexOf(text) >= 0) {
+                    searchList.add(currencyList.get(i));
+                }
+        } else {
+            searchList = currencyList;
         }
-        return  arrayName;
+        for (int i = 0; i < searchList.size(); ++i)
+            arrayName.add(searchList.get(i).getName() + " (" + searchList.get(i).getSymbol() + ")");
+        return arrayName;
     }
-    private void DisplayData(String text){
+
+    private void DisplayData(String text) {
         List<String> arrayName = SearchData(text);
-        adapter =new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, arrayName);
+        adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, arrayName);
         listview.setAdapter(adapter);
     }
 
