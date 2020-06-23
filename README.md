@@ -7,16 +7,20 @@ Using git on Android
 #### -Models: chứa các entity 
 #### -Service: gồm các dịch vụ tương tác giữa Models và Activity
 #### -Activity: 
-    * MainActivity: hiển thị danh sách tiền tệ và tìm kiếm (chưa có chức năng click vào tiền tệ)
-    * CurrencyRateChanger: activity chỉnh để hiển thị chức năng đổi tiền tệ (hiện chưa có gì)
+    * MainActivity: hiển thị danh sách tiền tệ và tìm kiếm (đã có tìm kiếm và click)
+    * CurrencyRateChanger: activity chỉnh để hiển thị chức năng đổi tiền tệ (hiện đã có UI)
     
 Tính năng hoàn chỉnh:
 - Tìm kiếm tiền tệ theo tên, trả về toàn bộ nếu chuổi tìm kiếm là rỗng
+- Chức năng click dể intent activity từ Main sang CurrencyRateChanger
+- Button back quay lại trang Main
+- Button refresh load lại data từ internet
 
 Tính năng còn thiếu: 
-- Click tiền tệ trên activity Main để chuyển sang activity Changer
 - Tính năng đổi tiền tệ trên activity CurrencyRateChanger 
--Tính năng reload lại dữ liệu từ internet (click button)
+- Tính năng hoán đổi 2 đơn vị
+- Tính năng ghi chép lại lịch sử đổi vào History và hiển thị trên màn hình
+
 
 
 P/s: Push code thì push trên nhánh dev nha!
