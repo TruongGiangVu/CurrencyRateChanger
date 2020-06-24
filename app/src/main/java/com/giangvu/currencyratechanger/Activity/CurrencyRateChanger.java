@@ -2,6 +2,7 @@ package com.giangvu.currencyratechanger.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -57,6 +58,7 @@ public class CurrencyRateChanger extends BaseActivity {
         btnRefresh = (Button) findViewById(R.id.btnRefresh);
         btnReverse = (ImageButton) findViewById(R.id.btnReverse);
         txtHistory = (TextView) findViewById(R.id.txtHistory);
+        txtHistory.setMovementMethod(new ScrollingMovementMethod());
         edtGetNumber = (EditText) findViewById(R.id.edtGetNumber);
         edtSetNumber = (EditText) findViewById(R.id.edtSetNumber);
         SymbolGet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -110,7 +112,7 @@ public class CurrencyRateChanger extends BaseActivity {
     }
 
     private void loadData() {
-        showDialogLoading("Please waiting for dowload data from server", false);
+        showDialogLoading(getResources().getString(R.string.processDialog), false);
         CurrencyService.getInstance().getCurrenciesFromRss("https://all.fxexchangerate.com/rss.xml", new CurrencyService.CurrencyServiceListener() {
             @Override
             public void onGetCurrencyFromRssSuccess(List<CurrencyModel> currencyModels) {
@@ -133,27 +135,28 @@ public class CurrencyRateChanger extends BaseActivity {
             @Override
             public void onGetCurrencyFromRssFail(String error) {
                 cancleDialogLoading();
-                Toast.makeText(CurrencyRateChanger.this, "Errors , please check your internet connection and retry!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CurrencyRateChanger.this, getResources().getString(R.string.errorDialog), Toast.LENGTH_SHORT).show();
                 Log.d(tag, "onGetCurrencyFromRssFail: " + error);
             }
         });
     }
 
     private void ExchangeCurrencies() {
+        String regex = "^-[\\.][0-9]|^-$|^-[\\.]$|^[\\.]$|^[\\.][0-9]|[0-9][\\.]$|^-[0]$";
         String inputText = edtGetNumber.getText().toString();
-        if (!inputText.trim().isEmpty()) {
+        if (inputText.trim().isEmpty() || inputText.matches(regex)) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.invalidNumber), Toast.LENGTH_SHORT).show();
+        } else {
             double input = Double.parseDouble(inputText);
             CurrencyModel currentGet = (CurrencyModel) currencies.get(adapter.getPosition(SymbolGet.getSelectedItem().toString()));
             CurrencyModel currentSet = (CurrencyModel) currencies.get(adapter.getPosition(SymbolSet.getSelectedItem().toString()));
             BigDecimal newValue = new BigDecimal(input / currentGet.getRate() * currentSet.getRate(), MathContext.DECIMAL64);
-            DecimalFormat df = new DecimalFormat("#,###,###,###.00");
+            DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
             String newValueString = df.format(newValue);
             edtSetNumber.setText(newValueString);
             String getHistory = txtHistory.getText().toString();
-            String history = getHistory + "\n" + input + " " + currentGet.getSymbol() + " = " + newValueString + " " + currentSet.getSymbol();
+            String history = input + " " + currentGet.getSymbol() + " = " + newValueString + " " + currentSet.getSymbol() + "\n" + getHistory;
             txtHistory.setText(history);
-        } else {
-            Toast.makeText(getApplicationContext(), "Please enter number!", Toast.LENGTH_SHORT).show();
         }
 
     }

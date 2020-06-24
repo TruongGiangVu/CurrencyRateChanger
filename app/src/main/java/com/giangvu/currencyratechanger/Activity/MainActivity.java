@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void loadData() {
-        showDialogLoading("Please waiting for dowload data from server", false);
+        showDialogLoading(getResources().getString(R.string.processDialog), false);
         CurrencyService.getInstance().getCurrenciesFromRss("https://all.fxexchangerate.com/rss.xml", new CurrencyService.CurrencyServiceListener() {
             @Override
             public void onGetCurrencyFromRssSuccess(List<CurrencyModel> currencyModels) {
@@ -97,7 +97,7 @@ public class MainActivity extends BaseActivity {
             public void onGetCurrencyFromRssFail(String error) {
                 cancleDialogLoading();
 //                btntry.setVisibility(View.VISIBLE);
-                Toast.makeText(MainActivity.this, "Errors , please check your internet connection and retry!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, getResources().getString(R.string.errorDialog), Toast.LENGTH_SHORT).show();
                 Log.d(tag, "onGetCurrencyFromRssFail: " + error);
             }
         });
