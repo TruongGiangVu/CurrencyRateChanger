@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CurrencyRateChanger</string>
+    <string name="edt_getnumber">Enter Number</string>
+    <string name="edt_setnumber">Result</string>
+    <string name="btn_refresh">Refresh</string>
+    <string name="btn_back">Back</string>
+    <string name="btn_cal">Calculate</string>
+    <string name="txt_history">History</string>
+    <string name="menu_search">search name, symbol</string>
 </resources>

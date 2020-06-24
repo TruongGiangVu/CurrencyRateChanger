@@ -3,18 +3,15 @@ package com.giangvu.currencyratechanger.Activity;
 import com.giangvu.currencyratechanger.Models.CurrencyModel;
 import com.giangvu.currencyratechanger.Service.CurrencyService;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.MenuItemCompat;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -52,7 +49,7 @@ public class MainActivity extends BaseActivity {
 
         MenuItem searchItem = menu.findItem(R.id.searchNameInput);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setQueryHint("search name");
+        searchView.setQueryHint(R.string.menu_search + "");
         searchView.setIconifiedByDefault(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
