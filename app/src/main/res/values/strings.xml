@@ -7,4 +7,7 @@
     <string name="btn_cal">Calculate</string>
     <string name="txt_history">History</string>
     <string name="menu_search">search name, symbol</string>
+    <string name="processDialog">Please waiting for dowload data from server...</string>
+    <string name="errorDialog">Errors , please check your internet connection and retry!</string>
+    <string name="invalidNumber">Number is not null, invalid!</string>
 </resources>

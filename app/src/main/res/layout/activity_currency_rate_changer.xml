@@ -84,19 +84,21 @@
 
     <TextView
         android:id="@+id/txtHistory"
-        android:layout_width="354dp"
-        android:layout_height="463dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
-        android:text="@string/txt_history"
-        android:textSize="18dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
+        android:scrollbars = "vertical"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtSetNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Spinner
         android:id="@+id/SymbolGet"
@@ -119,4 +121,15 @@
         android:src="@drawable/up_down_arrow_16px"
         app:layout_constraintStart_toEndOf="@+id/SymbolGet"
         app:layout_constraintTop_toBottomOf="@+id/edtGetNumber" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="110dp"
+        android:text="@string/txt_history"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtSetNumber" />
 </androidx.constraintlayout.widget.ConstraintLayout>
