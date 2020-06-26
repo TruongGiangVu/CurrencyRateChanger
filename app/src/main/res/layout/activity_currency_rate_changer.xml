@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/historyTV"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.CurrencyRateChanger">
@@ -17,6 +18,7 @@
         android:layout_marginRight="10dp"
         android:ems="10"
         android:hint="@string/edt_getnumber"
+        android:importantForAutofill="no"
         android:inputType="numberDecimal|numberSigned"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/SymbolGet"
@@ -28,9 +30,9 @@
         android:layout_height="46dp"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnReverse" />
+        app:layout_constraintTop_toBottomOf="@+id/SymbolGet" />
 
     <EditText
         android:id="@+id/edtSetNumber"
@@ -38,53 +40,61 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:ems="10"
         android:enabled="false"
         android:hint="@string/edt_setnumber"
+        android:importantForAutofill="no"
         android:inputType="numberDecimal|numberSigned"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/SymbolSet"
-        app:layout_constraintTop_toBottomOf="@+id/btnReverse" />
+        app:layout_constraintTop_toBottomOf="@+id/edtGetNumber" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:text="@string/btn_back"
-        app:layout_constraintEnd_toStartOf="@+id/btnCal"
-        app:layout_constraintTop_toBottomOf="@+id/edtSetNumber" />
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/custom_reverse_button"
+        android:contentDescription="@string/btn_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SymbolSet"
+        app:srcCompat="@drawable/back_icon" />
+
+    <ImageButton
+        android:id="@+id/btnRefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/custom_reverse_button"
+        android:contentDescription="@string/btn_refresh"
+        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintTop_toBottomOf="@+id/SymbolSet"
+        app:srcCompat="@drawable/synchronize" />
 
     <Button
         android:id="@+id/btnCal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
+        android:background="#6200EE"
         android:text="@string/btn_cal"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtSetNumber" />
-
-    <Button
-        android:id="@+id/btnRefresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:text="@string/btn_refresh"
-        app:layout_constraintEnd_toStartOf="@+id/btnBack"
         app:layout_constraintTop_toBottomOf="@+id/edtSetNumber" />
 
     <TextView
         android:id="@+id/txtHistory"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
@@ -93,8 +103,8 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
-        android:scrollbars = "vertical"
-        android:textSize="18dp"
+        android:scrollbars="vertical"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,13 +124,12 @@
         android:id="@+id/btnReverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="38dp"
         android:background="@drawable/custom_reverse_button"
+        android:contentDescription="@string/reverse"
         android:src="@drawable/up_down_arrow_16px"
         app:layout_constraintStart_toEndOf="@+id/SymbolGet"
-        app:layout_constraintTop_toBottomOf="@+id/edtGetNumber" />
+        app:layout_constraintTop_toTopOf="@+id/SymbolGet" />
 
     <TextView
         android:id="@+id/textView"
@@ -128,7 +137,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="110dp"
         android:text="@string/txt_history"
-        android:textSize="18dp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtSetNumber" />

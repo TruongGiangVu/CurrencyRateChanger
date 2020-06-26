@@ -18,6 +18,7 @@ import com.giangvu.currencyratechanger.Models.CurrencyModel;
 import com.giangvu.currencyratechanger.R;
 import com.giangvu.currencyratechanger.Service.CurrencyService;
 
+import java.io.DataOutput;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.DecimalFormat;
@@ -28,8 +29,8 @@ public class CurrencyRateChanger extends BaseActivity {
 
     String tag = "GIANGVU";
     private Spinner SymbolSet, SymbolGet;
-    private Button btnBack, btnRefresh, btnCal;
-    private ImageButton btnReverse;
+    private Button  btnCal;
+    private ImageButton btnReverse,btnBack, btnRefresh;
     private TextView txtHistory;
     private EditText edtGetNumber, edtSetNumber;
     private CurrencyModel model;
@@ -53,9 +54,9 @@ public class CurrencyRateChanger extends BaseActivity {
     private void initView() {
         SymbolSet = findViewById(R.id.SymbolSet);
         SymbolGet = findViewById(R.id.SymbolGet);
-        btnBack = (Button) findViewById(R.id.btnBack);
+        btnBack = (ImageButton) findViewById(R.id.btnBack);
         btnCal = (Button) findViewById(R.id.btnCal);
-        btnRefresh = (Button) findViewById(R.id.btnRefresh);
+        btnRefresh = (ImageButton) findViewById(R.id.btnRefresh);
         btnReverse = (ImageButton) findViewById(R.id.btnReverse);
         txtHistory = (TextView) findViewById(R.id.txtHistory);
         txtHistory.setMovementMethod(new ScrollingMovementMethod());
@@ -114,10 +115,12 @@ public class CurrencyRateChanger extends BaseActivity {
     private void loadData() {
         showDialogLoading(getResources().getString(R.string.processDialog), false);
         CurrencyService.getInstance().getCurrenciesFromRss("https://all.fxexchangerate.com/rss.xml", new CurrencyService.CurrencyServiceListener() {
+
             @Override
             public void onGetCurrencyFromRssSuccess(List<CurrencyModel> currencyModels) {
+                timerDelayRemoveDialog(1000);
                 currencies = currencyModels;
-                cancleDialogLoading();
+//                cancleDialogLoading();
                 ArrayList<String> arrayName = new ArrayList<String>();
                 for (int i = 0; i < currencies.size(); ++i)
                     arrayName.add(currencies.get(i).getSymbol());
@@ -155,7 +158,7 @@ public class CurrencyRateChanger extends BaseActivity {
             String newValueString = df.format(newValue);
             edtSetNumber.setText(newValueString);
             String getHistory = txtHistory.getText().toString();
-            String history = input + " " + currentGet.getSymbol() + " = " + newValueString + " " + currentSet.getSymbol() + "\n" + getHistory;
+            String history = df.format(input) + " " + currentGet.getSymbol() + " = " + newValueString + " " + currentSet.getSymbol() + "\n" + getHistory;
             txtHistory.setText(history);
         }
 
